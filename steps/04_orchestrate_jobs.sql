@@ -15,6 +15,7 @@ create or alter table vacation_spots (
   , aquarium_cnt int
   , zoo_cnt int
   , korean_restaurant_cnt int
+  , new_column string
 ) data_retention_time_in_days = {{retention_time}};
 
 
@@ -42,6 +43,7 @@ create or alter task vacation_spots_update
       , vacation_spots.aquarium_cnt = harmonized_vacation_spots.aquarium_cnt
       , vacation_spots.zoo_cnt = harmonized_vacation_spots.zoo_cnt
       , vacation_spots.korean_restaurant_cnt = harmonized_vacation_spots.korean_restaurant_cnt
+      , vacation_spots.new_column = '{{environment}}'
   WHEN NOT MATCHED THEN 
     INSERT VALUES (
         harmonized_vacation_spots.arrival_city
@@ -56,6 +58,7 @@ create or alter task vacation_spots_update
       , harmonized_vacation_spots.aquarium_cnt
       , harmonized_vacation_spots.zoo_cnt
       , harmonized_vacation_spots.korean_restaurant_cnt
+      , '{{environment}}'
     );
 
 
